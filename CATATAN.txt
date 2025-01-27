@@ -4,3 +4,8 @@ KALAU PAS DEVELOPMENT DAPET ERROR CANNOT FIND MODULE BLABLABLA
 2. docker compose up
 3. UNCOMMENT - /usr/src/app/node_modules
 4. docker comopse up
+
+KALAU MASIH ERROR
+
+1. hapus container nya
+2. docker compose up lagi

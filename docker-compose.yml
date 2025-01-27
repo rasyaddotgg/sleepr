@@ -8,8 +8,11 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/app:delegated
       - /usr/src/app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./apps/reservations/.env
   auth:
@@ -21,9 +24,40 @@ services:
     ports:
       - '3001:3001'
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/app:delegated
       - /usr/src/app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./apps/auth/.env
+  payments:
+    build:
+      context: .
+      dockerfile: ./apps/payments/Dockerfile
+      target: development
+    command: pnpm run start:dev payments
+    volumes:
+      - .:/usr/src/app:delegated
+      - /usr/src/app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./apps/payments/.env
+  notifications:
+    build:
+      context: .
+      dockerfile: ./apps/notifications/Dockerfile
+      target: development
+    command: pnpm run start:dev notifications 
+    volumes:
+      - .:/usr/src/app:delegated
+      - /usr/src/app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./apps/notifications/.env
   mongo:
     image: mongo

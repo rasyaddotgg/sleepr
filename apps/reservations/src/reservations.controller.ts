@@ -17,6 +17,7 @@ import {
   CurrentUser,
   JwtAuthGuard,
   PAYMENTS_SERVICE,
+  Roles,
   UserDto,
 } from '@app/common';
 import { ClientProxy } from '@nestjs/microservices';
@@ -53,6 +54,7 @@ export class ReservationsController {
   }
 
   @Delete(':id')
+  @Roles('Admin')
   remove(@Param('id') id: string) {
     return this.reservationsService.remove(id);
   }

@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: notifications
   name: notifications
@@ -10,15 +9,30 @@ spec:
   selector:
     matchLabels:
       app: notifications
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: notifications
     spec:
       containers:
       - image: asia-southeast2-docker.pkg.dev/sleep-448714/notifications/production
-        name: production
-        resources: {}
-status: {}
+        name: notifications
+        env:
+          - name: PORT
+            value: "3000"
+          - name: GOOGLE_OAUTH_CLIENT_ID
+            value: 1036523826752-ounuiqvp6dvl7kqg6730oej08700aggs.apps.googleusercontent.com
+          - name: SMTP_USER
+            value: "sleeprmailer@gmail.com"
+          - name: GOOGLE_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: google
+                key: clientSecret
+          - name: GOOGLE_OAUTH_REFRESH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: google
+                key: refreshToken
+        ports:
+          - containerPort: 3000

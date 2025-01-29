@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: reservation
-  name: reservation
+    app: reservations
+  name: reservations
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: reservation
+      app: reservations
   template:
     metadata:
       labels:
-        app: reservation
+        app: reservations
     spec:
       containers:
       - image: asia-southeast2-docker.pkg.dev/sleep-448714/reservations/production
-        name: reservations
+        name: production

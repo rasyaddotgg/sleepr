@@ -37,3 +37,7 @@ lerna-debug.log*
 .env
 apps/reservations/.env
 apps/auth/.env
+apps/notifications/.env
+apps/payments/.env
+
+sleep-448714-05a0e32b513b.json

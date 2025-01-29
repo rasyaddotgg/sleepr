@@ -17,3 +17,9 @@ spec:
       containers:
       - image: asia-southeast2-docker.pkg.dev/sleep-448714/reservations/production
         name: reservations
+        env:
+          - name: MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: mongodb
+                key: connectionString

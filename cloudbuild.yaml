@@ -59,5 +59,11 @@ steps:
       'push',
       'asia-southeast2-docker.pkg.dev/sleep-448714/payments/production'
     ]
-  
+options:
+  logging: CLOUD_LOGGING_ONLY   # Logs go to Cloud Logging (Stackdriver)
+  # Alternative: Use REGIONAL_USER_OWNED_BUCKET if you want logs in Cloud Storage
+  # defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+timeout: 900s  # Optional: Set timeout (15 min)
+
+serviceAccount: 'projects/sleep-448714/serviceAccounts/1036523826752-compute@developer.gserviceaccount.com'  
   

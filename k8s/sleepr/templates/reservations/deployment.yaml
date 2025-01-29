@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - image: asia-southeast2-docker.pkg.dev/sleep-448714/reservations/production
-        name: production
+        name: reservations

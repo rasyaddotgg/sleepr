@@ -4,9 +4,10 @@ services:
       context: .
       dockerfile: ./apps/reservations/Dockerfile
       target: development
-    command: pnpm run start:dev reservations
+    command: pnpm run start:debug reservations
     ports:
       - '3000:3000'
+      - '9229:9229'
     volumes:
       - .:/usr/src/app:delegated
       - /usr/src/app/node_modules

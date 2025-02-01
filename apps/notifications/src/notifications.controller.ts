@@ -1,15 +1,15 @@
 import { Controller, UsePipes, ValidationPipe } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
-import { EventPattern } from '@nestjs/microservices';
 import { NotifyEmailDto } from './dto/notify-email.dto';
+import { NotificationsServiceControllerMethods } from '@app/common';
 
 @Controller()
-export class NotificationsController {
+@NotificationsServiceControllerMethods()
+export class NotificationsController implements NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @UsePipes(new ValidationPipe())
-  @EventPattern('notify_email')
   async notifyEmail(data: NotifyEmailDto) {
-    return this.notificationsService.notifyEmail(data);
+    this.notificationsService.notifyEmail(data);
   }
 }

@@ -4,10 +4,9 @@ services:
       context: .
       dockerfile: ./apps/reservations/Dockerfile
       target: development
-    command: pnpm run start:debug reservations
+    command: pnpm run start:dev reservations
     ports:
       - '3000:3000'
-      - '9229:9229'
     volumes:
       - .:/usr/src/app:delegated
       - /usr/src/app/node_modules
@@ -60,5 +59,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./apps/notifications/.env
-  mongo:
-    image: mongo
+  mysql:
+    image: mysql
+    env_file:
+      - .env
+    ports:
+      - '3306:3306'

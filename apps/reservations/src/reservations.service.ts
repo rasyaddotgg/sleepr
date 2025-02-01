@@ -2,9 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { ReservationRepository } from './reservation.repository';
-import { PAYMENTS_SERVICE, UserDto } from '@app/common';
+import { PAYMENTS_SERVICE, User } from '@app/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { map } from 'rxjs';
+import { Reservation } from './models/reservation.entity';
 
 @Injectable()
 export class ReservationsService {
@@ -15,7 +16,7 @@ export class ReservationsService {
 
   async create(
     createReservationDto: CreateReservationDto,
-    { _id, email }: UserDto,
+    { id, email }: User,
   ) {
     return this.paymentsService
       .send('create_charge', {
@@ -24,12 +25,13 @@ export class ReservationsService {
       })
       .pipe(
         map((res) => {
-          return this.reservationRepository.create({
+          const reservation = new Reservation({
             ...createReservationDto,
             invoiceId: res.id,
             timestamp: new Date(),
-            userId: _id,
+            userId: id,
           });
+          return this.reservationRepository.create(reservation);
         }),
       );
   }
@@ -38,20 +40,20 @@ export class ReservationsService {
     return this.reservationRepository.find({});
   }
 
-  findOne(id: string) {
-    return this.reservationRepository.findOne({ _id: id });
+  findOne(id: number) {
+    return this.reservationRepository.findOne({ id });
   }
 
-  update(id: string, updateReservationDto: UpdateReservationDto) {
+  update(id: number, updateReservationDto: UpdateReservationDto) {
     return this.reservationRepository.findOneAndUpdate(
       {
-        _id: id,
+        id,
       },
       updateReservationDto,
     );
   }
 
-  remove(id: string) {
-    return this.reservationRepository.findOneAndDelete({ _id: id });
+  remove(id: number) {
+    return this.reservationRepository.findOneAndDelete({ id });
   }
 }

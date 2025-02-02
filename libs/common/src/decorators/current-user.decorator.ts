@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { UserDto } from '../dto';
+import { UserDto } from '../interfaces';
 
 const getCurrentUserByContext = (context: ExecutionContext): UserDto => {
   const request = context.switchToHttp().getRequest();

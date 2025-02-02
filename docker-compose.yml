@@ -74,6 +74,6 @@ services:
     env_file:
       - ./apps/gateway/.env
     ports:
-      - 3004:3004
+      - '3004:3004'
   mongo:
     image: mongo

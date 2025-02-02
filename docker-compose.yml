@@ -75,5 +75,10 @@ services:
       - ./apps/gateway/.env
     ports:
       - '3004:3004'
+    depends_on:
+      - reservations
+      - auth
+      - payments
+      - notifications
   mongo:
     image: mongo

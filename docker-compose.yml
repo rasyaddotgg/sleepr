@@ -59,5 +59,21 @@ services:
       - CHOKIDAR_USEPOLLING=true
     env_file:
       - ./apps/notifications/.env
+  gateway:
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+      target: development
+    command: pnpm run start:dev gateway 
+    volumes:
+      - .:/usr/src/app:delegated
+      - /usr/src/app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./apps/gateway/.env
+    ports:
+      - 3004:3004
   mongo:
     image: mongo

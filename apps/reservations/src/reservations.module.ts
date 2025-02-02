@@ -16,6 +16,12 @@ import {
   PAYMENTS_SERVICE,
   HealthModule,
 } from '@app/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
+import { ReservationResolver } from './reservations.resolver';
 
 @Module({
   imports: [
@@ -26,6 +32,12 @@ import {
         schema: ReservationSchema,
       },
     ]),
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: {
+        federation: 2,
+      },
+    }),
     LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
@@ -65,6 +77,6 @@ import {
     HealthModule,
   ],
   controllers: [ReservationsController],
-  providers: [ReservationsService, ReservationRepository],
+  providers: [ReservationsService, ReservationRepository, ReservationResolver],
 })
 export class ReservationsModule {}

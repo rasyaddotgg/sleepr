@@ -2,8 +2,15 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { UserDto } from '../dto';
 
 const getCurrentUserByContext = (context: ExecutionContext): UserDto => {
-  const request = context.switchToHttp().getRequest();
-  return request.user;
+  if (context.getType() === 'http') {
+    return context.switchToHttp().getRequest().user;
+  }
+
+  // when graphql
+  const user = context.getArgs()[2]?.req.headers?.user;
+  if (user) {
+    return JSON.parse(user);
+  }
 };
 
 export const CurrentUser = createParamDecorator(

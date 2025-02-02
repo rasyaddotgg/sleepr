@@ -27,7 +27,8 @@ export class AuthController {
     // will extract the current payload for this message pattern
     @Payload() data: any,
   ) {
-    // console.log({ data });
+    console.log({ data });
+    console.log('this is from authenticate');
     return data.user;
   }
 }

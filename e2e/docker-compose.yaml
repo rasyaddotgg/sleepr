@@ -1,0 +1,50 @@
+services:
+  e2e:
+    build:
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./specs:/usr/src/app/specs
+    depends_on:
+      - reservations
+      - auth
+      - payments
+      - notifications
+      - mongo
+  reservations:
+    image: asia-southeast2-docker.pkg.dev/sleep-448714/reservations/production
+    ports:
+      - '3000:3000'
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ../apps/reservations/.env
+  auth:
+    image: asia-southeast2-docker.pkg.dev/sleep-448714/auth/production
+    ports:
+      - '3001:3001'
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ../apps/auth/.env
+  payments:
+    image: asia-southeast2-docker.pkg.dev/sleep-448714/payments/production
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ../apps/payments/.env
+    ports:
+      - '3003:3003'
+  notifications:
+    image: asia-southeast2-docker.pkg.dev/sleep-448714/notifications/production
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ../apps/notifications/.env
+    ports:
+    - '3004:3004'
+  mongo:
+    image: mongo

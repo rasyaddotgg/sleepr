@@ -45,8 +45,8 @@ describe('Reservations', () => {
             amount: 5,
             card: {
               cvc: '413',
-              expMonth: 12,
-              expYear: 2027,
+              exp_month: 12,
+              exp_year: 2027,
               number: '4242 4242 4242 4242',
             },
           },
@@ -56,10 +56,9 @@ describe('Reservations', () => {
 
     expect(reservationCreate.ok).toBeTruthy();
     const createdReservation = await reservationCreate.json();
-    console.log(createdReservation);
 
     const responseGet = await fetch(
-      `http://reservations:3000/reservations/${createdReservation.id}`,
+      `http://reservations:3000/reservations/${createdReservation._id}`,
       {
         headers: {
           Authentication: jwt,

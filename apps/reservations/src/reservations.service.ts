@@ -28,7 +28,7 @@ export class ReservationsService {
             data: {
               startDate: createReservationDto.startDate,
               endDate: createReservationDto.endDate,
-              InvoiceId: res.invoiceId,
+              InvoiceId: res.id,
               timestamp: new Date(),
               userId: id,
             },
